@@ -42,7 +42,11 @@ class MyFavoriteBooks extends React.Component {
         </p>
         {this.state.bookData.map(ele => {
           return <div>
-          Book name:  {ele.title} Book description: {ele.description} {ele.email}
+            <>
+              <div>Book Title : {ele.title}</div>
+              <div>Book Description : {ele.description}</div>
+              <div>Book email : {ele.email}</div>
+            </>
           </div>;
         })}
       </div>
