@@ -12,9 +12,26 @@ class MyFavoriteBooks extends React.Component {
       bookData: []
     }
   }
-  componentDidMount = () => {
-  
-  }
+  componentDidMount= ()=>{
+    if (this.props.auth0.isAuthenticated){
+        this.props.auth0.getIdTokenClaims().then(result=>{
+            let jwt=result.__raw;
+            let config={
+                headers: {"Authorization" : `Bearer ${jwt}`},
+                method: 'get',
+                baseURL: "http://localhost:8000",
+                url: '/book'                    
+            }
+            axios(config).then(response=>{
+                console.log(response.data);
+                this.setState({
+                  bookData:response.data
+                })
+                
+            })
+        })
+    }
+}
 
   render() {
     return(
@@ -23,6 +40,11 @@ class MyFavoriteBooks extends React.Component {
         <p>
           This is a collection of my favorite books
         </p>
+        {this.state.bookData.map(ele => {
+          return <div>
+          Book name:  {ele.title} Book description: {ele.description} {ele.email}
+          </div>;
+        })}
       </div>
     )
   }
